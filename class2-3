@@ -1,0 +1,110 @@
+#复习下上次 的linux
+
+touch file1 file2  #创建文件
+echo ‘hello’ #打印功能
+ls  #显示列表
+通配符
+* #0或多个字符
+? #一个字符
+[list] #列表中的随意一个字符
+[!list]#列表外的任一字符
+[c1-c2] #顺序中的任一字符
+{string1,string2] #任一字符串
+{c1..c2} #顺序中的全部字符
+
+#获取帮助
+man 
+man 1 ls
+ls --help  #获取参数帮助
+
+sudo apt-get update #类似于pip
+sudo apt-get install sysvbanner  #安装sysvbanner
+
+####实验3  ： 用户及文件权限管理
+#查看用户
+who am i  #真是简单直接
+whoami
+who -a #打印所有能打印的
+who -d #打印死掉的进程
+who -m 同 who am i
+who -q #打印当前用户数
+who -r #打印运行等级
+#root是linux的超级管理员权限
+#sudo  系统管理命令
+
+su <user> 切换到用户uesr 需要输入目标用户的密码 <>不用输
+sudo <cmd>  特权级别运行cmd命令
+su - <user>  切换用户
+#新建用户
+sudo adduser lilei
+
+ls /home #列出所有用户
+su -l lilei
+su lilei   #进入李磊的账户
+exit  #退出账户
+
+##查看用户组
+groups lilei 
+
+sudo cat /etc/sudoers.d/shiyanlou
+
+cat 命令用于读取指定文件内容 并打印到输出终端
+| sort 命令表示将读取文本进行字典排序再输出
+cat /etc/group | sort 
+#linux不区分大小写
+cat /etc/group | grep -e 'shiyanlou'
+# etc/group 包括用户组 口令 user等
+#x 表示密码不可见
+#将其他用户加入sudo组
+su -l lilei
+sudo ls 
+su shiyanlou 
+#mima : 51137623
+groups lilei  #李磊不在sudo组
+sudo usermod -g sudo lilei  
+
+#删除用户
+sudo deluser lilei --remove-home
+
+#查看文件权限
+ls -l 
+#格式 drwxr-xr-x 2 shiyanlou shiyanlou 4096 11 12 15:27 documents
+# 文件类型和权限 链接数 所有者 所属用户组 文件大小 最后修改时间 文件名
+# drwxr-xr-x 所有者权限 所属用户组权限 其他用户权限
+ r表示允许读 w表示允许写 x表示允许执行 
+ d 目录 l软连接  b块设备 c 字符设备 s socket p管道 -普通文件
+##
+cat <file name> 读取某个文件的内容 写权限表示可以编辑和修改某个文件
+
+#ls 的命令
+ls . 当前目录
+ls .. 上一级目录
+ls -a 隐藏文件
+ls -al 隐藏长文件
+ls -dl<目录名> 查看目录属性，不是文件属性
+ls -AsSh  #显示文件大小 并排序 s为文件大小 S为排序
+#变更文件所有者
+touch iphone6
+ll iphone6
+exit
+cd /home/lilei 
+ls iphone6
+sudo chown shiyanlou iphone6 #文件变更成shiyanlou所有
+####修改文件权限
+用2进制表示权限
+7 表示 能读能写
+
+echo "echo\"hello shiyanlou\"">iphone6
+ll #表示文件情况
+
+chmod 700 iphone6 #修改权限为 组是rwx 其他是0 使用者是0
+chmod go-rw iphone6  #类似效果 g是group o是other u是user -是减掉权限
+#作业
+sudo adduser loutest 
+password: 123
+sudo touch /opt/forloutest
+cd /opt
+ll forloutest
+cd ...
+sudo chmod 646 /opt/forloutest
+##完成
