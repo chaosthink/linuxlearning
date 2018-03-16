@@ -1,0 +1,130 @@
+#test 4
+user：shiyanlou
+password:65104693
+#学习linux的思路转换，非以磁盘为主，而是以目录为主，因此磁盘不显得那么重要
+
+#fhs 定义了两层规范
+规范1： /的各个目录要放什么类型的数据 如/etc放设置文件，/bin /sbin 放可执行文件
+规范2： 针对/usr 及/var 两个子目录进行定义，/var/log放置系统日志 /usr/share放置共享数据
+bin 一般用户可用
+boot grub 开机设置相关文件 /内核文件
+dev 存放设备文件
+etc 控制程序运行的脚本
+home 用户家目录
+lib 存放程序的动态库和模块文件
+media 本地磁盘或其他储存设备
+mnt 挂载其他临时文件系统
+opt 附加软件包的安装目录
+root root用户的家
+sbin 高级root用户才能执行的命令
+srv 存放服务进程需要的数据
+tmp 存放各种临时文件
+
+user  bin非必要可执行文件 /lib二进制文件库 /local 本地数据第三层 /share 共享数据
+var 变量文件
+###
+sudo apt-get update
+sudo apt-get install tree
+####
+FHS的定义
+可分享的-不可变的  /usr（软件放置处） /opt（第三方软件）
+可分享的-可变的 /var/mail （用户邮件信箱） /var/news （新闻组）
+不可分享的-不可变的  /etc（配置文件） /boot（开机及内核文件）
+不可分享的-可变的  /var/run（程序相关）  /var/lock（文件锁相关）
+
+#路径
+. 一点表示当前目录
+.. 表示上一级目录
+- 表示上一次所在目录
+~ 表示home目录
+pwd 表示获取当前路径
+
+#绝对路径
+/cd /usr/local/bin
+#相对路径
+cd ../../usr/local/bin
+相对路径就是以当前文件为基准进行一级级目录指向被引用的资源文件。         ../             表示当前文件所在的目录的上一级目录         ./               表示当前文件所在的目录(可以省略)         /                表示当前站点的根目录(域名映射的硬盘目录)
+
+理解了 ，home不是最根目录，回到根目录还要走两层 ../
+浅显的话：
+假设当前在 /usr/local/bin 目录，想进入local目录 使用cd ..更快
+但是要进入usr目录 使用 cd /usr 更快
+总结：哪个好用哪个
+#linux区分大小写
+注意： 经常使用tab 有惊喜
+
+#新建文件
+在其他目录没有新建文件的权限，所以要返回home目录
+touch test
+
+#新建文件夹：
+mkdir （make directories）人名录的意思 
+mkdar -p star/star2/star3 #创建多级目录的意思 使用-p
+绝对路径和相对路径的一个区别就是 前面有没有一个/
+
+#复制
+cp test father/son/mom #复制文件
+cp test /home/shiyanlou/father/son/mom #一样的
+
+如果要复制目录 比如加上 -r
+
+总结 -r 复制目录 -p 建多个文件夹
+
+#删除
+rm (remove) 
+
+touch test 
+chmod 444 test 
+ll test
+rm test 
+rm -f test  #创建一个只读文件，删除时会有提示，使用-f 强制删除
+rm -r family #删除目录也需要加-r
+
+#移动文件与重命名
+mv (move) 
+mkdir Documents
+touch file1
+mv file1 Documents
+cd Documents
+ls
+重命名
+mv file1 file2  mv 旧名字 新名字
+#批量重命名
+touch file{1..5}.txt  #批量新建文件夹
+
+rename 's/\.txt/\.c/' *.txt  #将后缀为txt 的文件改成。c文件
+rename 'y/a-z/A-Z/' *.c   #将文件名改为大写
+# s或y 暂时猜测是改前面还是后缀 中间还有一个空格，*应该是全部的意思
+
+#查看文件
+cp /etc/passwd .
+cp /etc/passwd ~ #都可以,复制文件
+cat passwd  #打开文件
+cat -n passwd #打开文件并显示行号
+
+nl 命令，比 cat -n更专业：
+nl -b a 无论是否是空行都列出行号
+nl -b t 只列出非空行
+nl -n ln 行号在最左端显示
+nl -n rn 行号在最右端显示 ，且不加0
+nl -n rx 在最右端显示 且加0
+nl -w 行号字段占用位数？
+
+使用more 查看文件 
+more passwd
+
+head tail #跟R一样
+tail -n 1 passwd  #只查看最后一行
+tail passwd #后十行
+
+#使用file查看文件类型
+file /bin/ls 
+
+#作业
+mkdir homework
+cd homework
+touch {1..10}.txt
+rm {1..5}.txt
+
+####
+#####
